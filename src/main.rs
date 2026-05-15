@@ -6,6 +6,7 @@ use clap::Parser;
 use parser::binary::analyze_binary;
 use analysis::strings::extract_strings;
 use analysis::entropy::calculate_entropy;
+use analysis::hex::hex_view;
 
 #[derive(Parser)]
 #[command(author, version, about)]
@@ -28,6 +29,10 @@ struct Args {
     /// Calculate entropy
     #[arg(long)]
     entropy: bool,
+
+    /// Show hex view
+    #[arg(long)]
+    hex: bool,
 }
 
 fn main() {
@@ -53,5 +58,11 @@ fn main() {
         let entropy = calculate_entropy(&bytes);
 
         println!("Entropy: {:.4}", entropy);
+    }
+
+    if args.hex {
+        println!("\n=== HEX VIEW ===");
+
+        hex_view(&bytes, 16);
     }
 }
